@@ -1,6 +1,7 @@
 pragma solidity ^0.6.0;
 import "./IExerciceSolution.sol";
 import "./ERC20Claimable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract ExerciceSolution is IExerciceSolution
 {
@@ -26,7 +27,8 @@ contract ExerciceSolution is IExerciceSolution
 	}
 
 	function depositTokens(uint256 amountToWithdraw) override external returns (uint256) {
-        return 0;
+		claimableERC20.transferFrom(msg.sender, address(this), amountToWithdraw);
+        balance[msg.sender] += amountToWithdraw;
     }
 
 	function getERC20DepositAddress() override external returns (address) {
